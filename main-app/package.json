@@ -36,6 +36,7 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-simple-image-slider": "^2.1.0"
   }
 }

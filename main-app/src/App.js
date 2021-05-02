@@ -4,11 +4,12 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./components/login/login";
 import SignUp from "./components/login/register";
+import Home from "./components/home/home";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+{/*      <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -22,15 +23,18 @@ function App() {
           Learn React
         </a>
       </header>
+*/}
 <Router>
-      <Switch>
+   
+   <Switch>
 
       <div className="auth-wrapper">
         <div className="auth-inner">
             <Route exact path='/' component={Login} />
             <Route path="/sign-in" component={Login} />
             <Route path="/sign-up" component={SignUp} />
-        </div>
+            <Route path="/home" component={Home} />
+	</div>
       </div>
       </Switch>
 </Router>

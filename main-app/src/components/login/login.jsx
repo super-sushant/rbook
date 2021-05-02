@@ -10,16 +10,17 @@ export default class Login extends Component {
 	}
         async handleSubmit(e){
 		e.preventDefault()
-                const url = 'http://localhost:8000/sasta//login/'
+                const url = process.env.REACT_APP_API_URL +'token/'
                 await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json'},
                         body: JSON.stringify(this.state)
                 }).then(response=>response.json()).then(result=>{
-		if(result.token){
-			localStorage.setItem("accessToken",result.token)
-			{/*localStorage.setItem("refreshToken",result.data.tokenAuth.refreshToken)
-			localStorage.setItem("username",result.data.tokenAuth.user.username)*/}
+		if(result.access){
+			const {token} =result.access
+			localStorage.setItem("accessToken",token)
+			localStorage.setItem("refreshToken",result.refresh)
+			{/*localStorage.setItem("username",result.data.tokenAuth.user.username)*/}
 			this.setState({login:true})
                 }else{
                         var p=result
@@ -61,7 +62,7 @@ export default class Login extends Component {
 
                 <button type="submit" onClick={this.handleSubmit} className="btn btn-primary btn-block">Submit</button>
                 <p className="forgot-password text-right">
-                    Forgot <a href="#">password?</a><br></br>
+                    Forgot <a href="">password?</a><br></br>
                     New User ? <a href="/sign-up">Sign Up</a>
                 </p>
             </form>
