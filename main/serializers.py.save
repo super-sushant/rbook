@@ -27,6 +27,10 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
 		fields='__all__'
 
 class PostLikeSerializer(serializers.HyperlinkedModelSerializer):
+	def create(self, validated_data):
+		print(**validated_data)
+
+		return Comment.objects.create(**validated_data)
 	class Meta:
 		model=PostLikes
 		fields=['post','user']

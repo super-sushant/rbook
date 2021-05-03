@@ -10,18 +10,16 @@ export default class Login extends Component {
 	}
         async handleSubmit(e){
 		e.preventDefault()
-                const url = process.env.REACT_APP_API_URL +'token/'
+                const url = process.env.REACT_APP_API_URL +'rest-auth/login/'
                 await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json'},
                         body: JSON.stringify(this.state)
                 }).then(response=>response.json()).then(result=>{
-		if(result.access){
-			const {token} =result.access
-			localStorage.setItem("accessToken",token)
-			localStorage.setItem("refreshToken",result.refresh)
-			{/*localStorage.setItem("username",result.data.tokenAuth.user.username)*/}
-			this.setState({login:true})
+		if(result.token){
+			localStorage.setItem("token",result.token)
+			localStorage.setItem("id",result.user.pk)
+			this.setState({login:true,id:result.user.pk})
                 }else{
                         var p=result
                         for (var key in p) {
@@ -37,7 +35,7 @@ export default class Login extends Component {
 	}
 	const redirectToReferrer = this.state.login;
 	if (redirectToReferrer) {
-		return <Redirect to="/home" />
+		return <Redirect to={{pathname:"/home",state:{id:this.state.id}}}/>
         }
         return (
             <form>

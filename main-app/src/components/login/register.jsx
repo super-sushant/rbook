@@ -16,7 +16,6 @@ export default class SignUp extends Component {
 		if(result.token){
 			alert(JSON.stringify(result))
 			localStorage.setItem("accessToken",result.token)
-			{/*localStorage.setItem("refreshToken",result.data.register.refreshToken)
 			localStorage.setItem("username",this.state.username)*/}
 			this.setState({signup:true})
 		}else{

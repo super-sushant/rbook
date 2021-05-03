@@ -8,6 +8,9 @@ body {
   border:5px solid #66fcf1;
   border-radius:5px;
 }
+.link{
+  color:#C5C6C7;
+}
 .post-container{
   border:2px solid #C5C6C7;
   border-radius:15px;

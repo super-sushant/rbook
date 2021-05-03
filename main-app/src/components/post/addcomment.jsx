@@ -1,7 +1,8 @@
 import React from 'react'
 
 export default function AddComment(props){
-		const form =React.useRef(null)
+	const token =localStorage.getItem('token')
+	const form =React.useRef(null)
 	const handleSubmit=(e)=>{
 		e.preventDefault()
 		const url =process.env.REACT_APP_API_URL +"comments/"
@@ -11,7 +12,7 @@ export default function AddComment(props){
 
 		fetch(url,{
 			method:'POST',
-			headers:{},
+			headers:{'Authorization':`Bearer ${token}`},
 			body:data
 		}).then(res=>res.json())
 		.then(result=>{
@@ -19,8 +20,6 @@ export default function AddComment(props){
 		}).catch(err=>alert(JSON.stringify(err)))
 	}
 	
-		const handleChange=(e)=>{
-			this.setState({[e.target.id]:e.target.value})}
 		return(
 			<div className="comment-box">
 			<form className="comment-form" onSubmit={handleSubmit} ref={form}>

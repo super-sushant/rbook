@@ -1,4 +1,4 @@
-from rest_framework_simplejwt import views as jwt_views
+from rest_framework_jwt import views as jwt_views
 from django.urls import path,include,re_path
 from rest_framework import routers
 from .views import *
@@ -13,6 +13,9 @@ router.register(r'commentsl',CommentLikeViewSet)
 router.register(r'images',ImageViewSet)
 urlpatterns =[
 	path('',include(router.urls)),
-	path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-	path('refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+	path('token/', jwt_views.obtain_jwt_token, name='token_obtain_pair'),
+	path('refresh/', jwt_views.refresh_jwt_token, name='token_refresh'),
+	path('verify/',jwt_views.verify_jwt_token),
+	path('rest-auth/', include('rest_auth.urls')),
+	path('rest-auth/registration/', include('rest_auth.registration.urls'))
 	]

@@ -17,13 +17,13 @@ export default class Feed extends React.Component{
 		}else{
 			url=process.env.REACT_APP_API_URL+"posts/"
 		}
+		const token =localStorage.getItem('token')
 		await fetch(url,{
 			method:'GET',
-			headers:{'Content-Type':'application/json'}
-		}).then(res=>res.json()).then(result=>{
+			headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}
+			}).then(res=>res.json()).then(result=>{
 			if(result.length){
-				alert(JSON.stringify(result))
-				this.setState({posts:result})	
+				this.setState({posts:result})
 			}
 		}).catch(err=>alert(JSON.stringify(err)))
 			
