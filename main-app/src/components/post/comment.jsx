@@ -1,6 +1,6 @@
 import React from 'react'
 import UserThumb from './userthumb.jsx'
-export default function Comment(props){
+export default function Comment(props,{userContext}){
 	const token =localStorage.getItem('token')
 	let comment=props.comment
 	const like=(e)=>{
@@ -16,7 +16,7 @@ export default function Comment(props){
 	}
 	const changeLike=(ive)=>{
 		const url=props.comment.url
-		let data = {likes:props.comment.likes,user:props.comment.user,comment:url}
+		let data = {likes:comment.likes,user:comment.user,comment:url}
 		comment.likes+=ive
 		data.likes=data.likes+ive
 		fetch(url,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify(data)})

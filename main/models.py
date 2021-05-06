@@ -1,11 +1,12 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
+
 # Create your models here.
 def file_name(instance, filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (instance.user.username,ext)
-    return os.path.join('media/dp', filename)
+    return os.path.join('dp', filename)
 class TimeStampedModel(models.Model):
 	"""
 	An abstract base class model that provides self-
@@ -15,16 +16,27 @@ class TimeStampedModel(models.Model):
 	modified = models.DateTimeField(auto_now=True)
 	class Meta:
 		abstract = True
+class Category(models.Model):
+	pic=models.ImageField(upload_to='thumbs')
+	name=models.CharField(max_length=30)
+
+class Community(models.Model):
+	pic=models.ImageField(upload_to='thumbs')
+	name=models.CharField(max_length=30)
+	category=models.ManyToManyField(Category)
 
 
 class UserProfile(models.Model):
 	user =models.OneToOneField(User,blank =False,on_delete=models.CASCADE)
-	dp = models.ImageField(upload_to=file_name)
-	dob = models.DateField()
+	dp = models.ImageField(upload_to=file_name,blank=True,null=True)
+	dob = models.DateField(blank=True,null=True)
+	community=models.ManyToManyField(Community)
+	starred=models.ManyToManyField(User,related_name='favourites')
 
 class Post(TimeStampedModel):
 	user=models.ForeignKey(User,blank =False,on_delete=models.CASCADE)
 	text=models.CharField(max_length=300,blank=True)
+	community=models.ForeignKey(Community,null=True,default=None,on_delete=models.CASCADE)
 	likes=models.IntegerField(default=0)
 
 class Comment(TimeStampedModel):
@@ -36,7 +48,7 @@ class Comment(TimeStampedModel):
 
 class Image(TimeStampedModel):
 	post=models.ForeignKey(Post,null=True,blank=True,on_delete=models.CASCADE)
-	image=models.ImageField(upload_to='media/images/')
+	image=models.ImageField(upload_to='images/')
 
 
 class PostLikes(TimeStampedModel):
@@ -50,4 +62,6 @@ class CommentLikes(TimeStampedModel):
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	class Meta:
 		unique_together=('comment','user')
+
+
 

@@ -26,7 +26,7 @@ export default class UserThumb extends React.Component{
 	return( <div className="dp-full">
                         <img className = "dp-thumb" alt="no_dp?" src={process.env.REACT_APP_DEFAULT_DP}/>
 		<div>
-		<div className="username"><Link to={{pathname:'\home',state:{id:profile.id}}} className="link">{"@"+profile.username}</Link></div>
+		<div className="username"><Link to={`/home/${profile.pk}`} className="link">{"@"+profile.username}</Link></div>
                 <div className="name">{profile.first_name+profile.last_name}</div>
                 </div>
 		</div>

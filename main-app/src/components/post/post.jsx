@@ -11,9 +11,15 @@ export default class Post extends React.Component{
 		this.loadComments=this.loadComments.bind(this)
 		this.loadImages=this.loadImages.bind(this)
 		this.handleClick=this.handleClick.bind(this)
+		this.handleStateChange = this.handleStateChange.bind(this);
 		}
 	componentDidMount(){
 		this.loadImages()
+		}
+	handleStateChange(value){
+		let comments = this.state.comments;
+		comments.unshift(value);
+		this.setState({ comments : comments ,noComments:false})
 		}
 	handleClick(e){
 		e.preventDefault()
@@ -61,9 +67,16 @@ export default class Post extends React.Component{
 		}else{
 		 comments = this.state.comments.map(comment=><Comment comment={comment} user={this.props.user}/>) 
 		}
+                const token =localStorage.getItem('token')
+	const deletePost=(e)=>{
+		e.preventDefault()
+		fetch(post.url,{
+			method:'DELETE',
+			headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}})
+		.then(res=>{if(res){this.props.handle(post,0)}})
+		}
 	const like=(e)=>{
                 let url = process.env.REACT_APP_API_URL+'postsl/'
-                const token =localStorage.getItem('token')
 		let data={post:post.url,user:this.props.user}
                 fetch(url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify(data)})
                 .then(res=>res.json())
@@ -86,6 +99,8 @@ export default class Post extends React.Component{
 		return(
 			<div className="post-container">
 			<UserThumb profile={post.user} />
+			{post.user===this.props.user?
+			<button onClick={deletePost}>delete?</button>:""}
 			<hr/>
 			<div className="post-text">
 
@@ -103,7 +118,7 @@ export default class Post extends React.Component{
 			<div className="post-lower">
 			<button className="like" onClick={like}>^</button>
 			{post.likes}			
-			<AddComment post={post.url} user ={this.props.user} />
+			<AddComment post={post.url} handle={this.handleStateChange} user ={this.props.user} />
 			<button className="comment" onClick={this.handleClick}>
 			{this.state.showComments?"Hide":"Show"}
 			</button>

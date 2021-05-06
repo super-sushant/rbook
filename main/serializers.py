@@ -35,3 +35,14 @@ class CommentLikeSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model=CommentLikes
 		fields=['comment','user']
+
+
+class CommunitySerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Community
+		fields='__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Category
+		fields='__all__'

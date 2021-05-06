@@ -35,7 +35,7 @@ export default class Login extends Component {
 	}
 	const redirectToReferrer = this.state.login;
 	if (redirectToReferrer) {
-		return <Redirect to={{pathname:"/home",state:{id:this.state.id}}}/>
+		return <Redirect to={`/home/${this.state.id}/0`}/>
         }
         return (
             <form>

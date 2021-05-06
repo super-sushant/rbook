@@ -16,7 +16,7 @@ export default function AddComment(props){
 			body:data
 		}).then(res=>res.json())
 		.then(result=>{
-			alert(JSON.stringify(result))
+			if(result.user){props.handle(result)}
 		}).catch(err=>alert(JSON.stringify(err)))
 	}
 	

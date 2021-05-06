@@ -7,16 +7,15 @@ export default class SignUp extends Component {
 	}
 	async handleSubmit(e){
 		e.preventDefault()
-		const url = 'http://localhost:8000/sasta/registration/'
+		const url = 'http://localhost:8000/sasta/rest-auth/registration/'
 		await fetch(url, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		}).then(response=>response.json()).then(result=>{
 		if(result.token){
-			alert(JSON.stringify(result))
-			localStorage.setItem("accessToken",result.token)
-			localStorage.setItem("username",this.state.username)*/}
+			localStorage.setItem("token",result.token)
+			localStorage.setItem("id",result.user.id)
 			this.setState({signup:true})
 		}else{
 			var p=result
@@ -32,7 +31,19 @@ export default class SignUp extends Component {
 		this.setState({[e.target.id]:e.target.value})
 	}
 	const redirectToReferrer = this.state.signup;
+	const res=()=>{
+		const token=localStorage.getItem('token')
+		const url = 'http://localhost:8000/sasta/users/'
+		fetch(url, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json','Authorization':`Bearer $(token)`},
+			body: JSON.stringify({})
+		}).then(response=>response.json()).then(result=>{
+			alert(JSON.stringify(result))
+		})
+	}
         if (redirectToReferrer) {
+		res();
             return(<p><h1>Verify Account using link in Email </h1>
                 <h5 className="forgot-password text-right">
                     Already Verified <a href="/sign-in">sign in?</a>

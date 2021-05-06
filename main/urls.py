@@ -6,6 +6,8 @@ from .views import *
 router = routers.DefaultRouter()
 router.register(r'users',UserProfileViewSet)
 router.register(r'us',UserViewSet)
+router.register(r'cat',CategoryViewSet)
+router.register(r'com',CommunityViewSet)
 router.register(r'posts',PostViewSet)
 router.register(r'postsl',PostLikeViewSet)
 router.register(r'comments',CommentViewSet)
@@ -17,5 +19,5 @@ urlpatterns =[
 	path('refresh/', jwt_views.refresh_jwt_token, name='token_refresh'),
 	path('verify/',jwt_views.verify_jwt_token),
 	path('rest-auth/', include('rest_auth.urls')),
-	path('rest-auth/registration/', include('rest_auth.registration.urls'))
+	path('rest-auth/registration/', include('rest_auth.registration.urls')),
 	]
