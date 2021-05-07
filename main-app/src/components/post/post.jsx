@@ -4,7 +4,6 @@ import UserThumb from './userthumb.jsx'
 import Comment from './comment.jsx'
 import AddComment from './addcomment.jsx'
 export default class Post extends React.Component{
-
 	constructor(props){
 		super(props)
 		this.state={showComments:false,images:[],noComments:false,comments:[],liked:false,profile:{}}
@@ -118,7 +117,7 @@ export default class Post extends React.Component{
 			<div className="post-lower">
 			<button className="like" onClick={like}>^</button>
 			{post.likes}			
-			<AddComment post={post.url} handle={this.handleStateChange} user ={this.props.user} />
+			<AddComment post={post.url} handle={this.handleStateChange}/>
 			<button className="comment" onClick={this.handleClick}>
 			{this.state.showComments?"Hide":"Show"}
 			</button>

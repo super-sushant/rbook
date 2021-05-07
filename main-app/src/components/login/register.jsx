@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import {Redirect} from 'react-router-dom'
 export default class SignUp extends Component {
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
+		this.myref=React.createRef(null)
 		this.state={ email:"",password1:"",password2:"",username:""}
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
@@ -13,9 +15,7 @@ export default class SignUp extends Component {
 			headers: { 'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		}).then(response=>response.json()).then(result=>{
-		if(result.token){
-			localStorage.setItem("token",result.token)
-			localStorage.setItem("id",result.user.id)
+		if(result.detail){
 			this.setState({signup:true})
 		}else{
 			var p=result
@@ -31,24 +31,31 @@ export default class SignUp extends Component {
 		this.setState({[e.target.id]:e.target.value})
 	}
 	const redirectToReferrer = this.state.signup;
-	const res=()=>{
-		const token=localStorage.getItem('token')
+	const handleSubmit=(e)=>{
+		e.preventDefault()
 		const url = 'http://localhost:8000/sasta/users/'
+		const data = new FormData(this.myref.current)
+	        data.append("user",`http://localhost:8000/sasta/us/${this.props.match.params.id}/`)
+		data.append("community",["http://localhost:8000/sasta/com/1/"])
+	        data.append('starred', ["http://localhost:8000/sasta/us/1/"])
 		fetch(url, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json','Authorization':`Bearer $(token)`},
-			body: JSON.stringify({})
+			body: data
 		}).then(response=>response.json()).then(result=>{
-			alert(JSON.stringify(result))
+			this.setState({gotohome:true})
 		})
 	}
         if (redirectToReferrer) {
-		res();
             return(<p><h1>Verify Account using link in Email </h1>
                 <h5 className="forgot-password text-right">
                     Already Verified <a href="/sign-in">sign in?</a>
                 </h5></p>)
         }
+	if(this.state.gotohome){
+		return(
+			<Redirect to={`/home/${this.props.match.params.id}/0`} />)}
+		
+	if(this.props.match.params.id==='0'){
         return (
             <form>
                 <h3>Sign Up</h3>
@@ -76,6 +83,13 @@ export default class SignUp extends Component {
                     Already registered <a href="/sign-in">sign in?</a>
                 </p>
 		</form>
-	);
+	);}
+	else{return(
+            <form ref={this.myref}>
+                <h3>Sign Up</h3>
+                    <input name='dob'  id = "dob" type="date" required/>
+                    <input name='dp' id = "dp" type="file" accept="image/png, image/jpeg" />
+                <button type="submit" className="btn btn-primary btn-block" onClick = {handleSubmit}>Sign Up</button>
+		</form>);}
     }
 }

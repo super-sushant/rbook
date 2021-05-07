@@ -1,6 +1,7 @@
 import React from 'react'
 import Post from './post.jsx'
 import AddPost from './addpost.jsx'
+import {userContext} from '../../userContext'
 export default class Feed extends React.Component{
 	constructor(props){
 	super(props)
@@ -13,9 +14,9 @@ export default class Feed extends React.Component{
 		this.loadPost()
 	}
 	componentWillUpdate(nextProps){
-		if(nextProps.id!==this.state.id){
+		if(nextProps.id!==this.state.id || nextProps.com!==this.state.com){
 			this.loadPost()
-			this.setState({id:nextProps.id})
+			this.setState({id:nextProps.id,com:nextProps.com})
 		}
 	}
 	handleStateChange(value,arg){
@@ -30,26 +31,28 @@ export default class Feed extends React.Component{
 		if(this.props.id!=='0'){
 			const id=this.props.id
 			url=process.env.REACT_APP_API_URL+"posts/?user="+id
-		}else if(this.props.com!=='0'){
+		}else if(typeof(this.props.com)!=='undefined'){
 			url=process.env.REACT_APP_API_URL+"posts/?community="+this.props.com
 		}
-		const token =localStorage.getItem('token')
 		await fetch(url,{
 			method:'GET',
-			headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}
+			headers:{'Content-Type':'application/json'}
 			})
 			.then(res=>res.json())
 			.then(result=>{if(Array.isArray(result)){this.setState({posts:result})}})
 			.catch(err=>alert(JSON.stringify(err)))
-			
 	}
-	
 	render(){
 	let Posts = this.state.posts.map(post=><Post post={post} handle={this.handleStateChange} user={this.props.user}/>)
-	
 		return(
 			<div>
-				{this.state.id===this.props.user.split('/')[5]?<AddPost user={this.props.user} handle={this.handleStateChange} />:""}	
+				<userContext.Consumer>
+				{({user}) => {
+				if(Object.keys(user)===0){
+					return (
+((typeof this.state.com!=='undefined' && user.user!=='')|| this.state.id===user.user.split('/')[5])?
+<AddPost com={this.state.com} handle={this.handleStateChange} />:"")}}}
+				</userContext.Consumer>
 				{Posts}
 			</div>
 		)

@@ -7,10 +7,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		fields = ['pk','url', 'username','first_name','last_name', 'email', 'groups']
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
-	user = UserSerializer(read_only = True)
+	#user = UserSerializer(read_only = True)
 	class Meta:
 		model = UserProfile
-		fields = ['user','dp','dob']
+		fields ='__all__'
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:

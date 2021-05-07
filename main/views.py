@@ -1,24 +1,35 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from rest_framework import viewsets,permissions
+from rest_framework import viewsets,permissions,filters
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .serializers import *
 from .models import *
+
+
+@api_view()
+def null_view(request):
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view()
+def complete_view(request):
+    return Response("Email account is activated")
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all().order_by('-date_joined')
 	serializer_class = UserSerializer
+	filter_backends = [filters.SearchFilter]
+	search_fields =['username','first_name']
 	#permission_classes = [permissions.IsAuthenticated]
 
 class UserProfileViewSet(viewsets.ModelViewSet):
-	queryset = UserProfile.objects.all().order_by('-pk')
 	filterset_fields =['user']
+	queryset = UserProfile.objects.all().order_by('-pk')
 	serializer_class = UserProfileSerializer
 	#permission_classes = [permissions.IsAuthenticated]
-
-	def perform_create(self, serializer):
-		serializer.save(user=self.request.user)
-
 class PostViewSet(viewsets.ModelViewSet):
 	queryset =Post.objects.all().order_by('-pk')
 	filterset_fields =['user']
@@ -67,4 +78,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class CommunityViewSet(viewsets.ModelViewSet):
 	queryset=Community.objects.all().order_by('-pk')
 	serializer_class=CommunitySerializer
+	filter_backends = [DjangoFilterBackend,filters.SearchFilter]
 	filterset_fields =['category']
+	search_fields=['name']

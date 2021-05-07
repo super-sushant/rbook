@@ -1,19 +1,22 @@
 import React from 'react'
+import {userContext} from '../../userContext'
 export default function AddPost(props){
-	const token =localStorage.getItem('token')
+	const {user,header}=React.useContext(userContext)
 	const form =React.useRef(null)
 	const handleSubmit=(e)=>{
 		e.preventDefault()
 		const url =process.env.REACT_APP_API_URL +"posts/"
 		let data = new FormData(form.current)
-		data.append('user',props.user)
+		data.append('user',user.user)
+		if(props.com){data.append('community',process.env.REACT_APP_API_URL+'com/'+props.com+'/')}
 		fetch(url,{
 			method:'POST',
-			headers:{'Authorization':`Bearer ${token}`},
+			headers:{...header},
 			body:data
 		}).then(res=>res.json())
 		.then(result=>{
 			if(result.url){
+				alert(JSON.stringify(result))
 				uploadFiles(result.url);
 				props.handle(result,1)}
 		}).catch(err=>alert(JSON.stringify(err)))
@@ -27,7 +30,7 @@ export default function AddPost(props){
 		data.append('image',file)
 		fetch(url,{
 			method:'POST',
-			headers:{'Authorization':`Bearer ${token}`},
+			headers:{...header},
 			body:data})
 		.then(res=>res.json())
 		.then(result=>{
@@ -38,7 +41,6 @@ export default function AddPost(props){
 	const handleChange=(e)=>{
 		e.preventDefault()
 		selectedFiles=e.target.files
-		alert(JSON.stringify(selectedFiles))
 		}
 	
 		return(

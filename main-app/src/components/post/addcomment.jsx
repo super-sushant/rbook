@@ -1,18 +1,17 @@
 import React from 'react'
-
+import {userContext} from '../../userContext'
 export default function AddComment(props){
-	const token =localStorage.getItem('token')
 	const form =React.useRef(null)
+	const {user,header}=React.useContext(userContext)
 	const handleSubmit=(e)=>{
 		e.preventDefault()
 		const url =process.env.REACT_APP_API_URL +"comments/"
 		let data = new FormData(form.current)		
-		data.append('user',props.user)
+		data.append('user',user.user)
 		data.append('post',props.post)
-
 		fetch(url,{
 			method:'POST',
-			headers:{'Authorization':`Bearer ${token}`},
+			headers:{...header},
 			body:data
 		}).then(res=>res.json())
 		.then(result=>{
