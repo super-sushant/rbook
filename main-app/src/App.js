@@ -28,7 +28,6 @@ class App extends React.Component {
   componentDidMount() {
 	this.loadData()}
   loadData(){
-		alert(JSON.stringify(this.state.id))
 		const url=process.env.REACT_APP_API_URL+'users/?user='+this.state.id
                 fetch(url).then(res=>res.json()).then(res=>{
                 if(res.length===1){this.setState({user:res[0]})

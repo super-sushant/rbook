@@ -3,6 +3,7 @@ import SimpleImageSlider from "react-simple-image-slider";
 import UserThumb from './userthumb.jsx'
 import Comment from './comment.jsx'
 import AddComment from './addcomment.jsx'
+import {userContext} from '../../userContext'
 export default class Post extends React.Component{
 	constructor(props){
 		super(props)
@@ -30,11 +31,7 @@ export default class Post extends React.Component{
 	async loadImages(){
 		const postId=this.props.post.url.split("/")[5]
 		const url = process.env.REACT_APP_API_URL +'images/?post='+postId
-		const token =localStorage.getItem('token')
-		await fetch(url,{
-			method:'GET',
-			headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
-		}).then(res=>res.json()).then(result=>{
+		await fetch(url).then(res=>res.json()).then(result=>{
 			if(result.length){
 				let image=[]
 				result.forEach(img=>image.push({url:img.image}))
@@ -44,12 +41,8 @@ export default class Post extends React.Component{
 	}
 	async loadComments(){
 		const postId=this.props.post.url.split("/")[5]
-		const token =localStorage.getItem('token')
 		const url = process.env.REACT_APP_API_URL +'comments/?post='+postId
-		await fetch(url,{
-			method:'GET',
-			headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
-		}).then(res=>res.json()).then(result=>{
+		await fetch(url).then(res=>res.json()).then(result=>{
 			if(result.length){
 				this.setState({comments:result})
 			}
@@ -115,9 +108,15 @@ export default class Post extends React.Component{
         images={this.state.images}
       />}
 			<div className="post-lower">
+			{post.likes}
+			<userContext.Consumer>
+			{({user})=>{
+			if(Object.keys(user).length){
+			return(<>
 			<button className="like" onClick={like}>^</button>
-			{post.likes}			
 			<AddComment post={post.url} handle={this.handleStateChange}/>
+			</>)}}}
+			</userContext.Consumer>
 			<button className="comment" onClick={this.handleClick}>
 			{this.state.showComments?"Hide":"Show"}
 			</button>

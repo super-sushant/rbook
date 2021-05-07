@@ -20,13 +20,12 @@ export default class Home extends React.Component{
 		this.loadData();}
 	}
     async loadData(){
-	if(this.state.id!=='0'){
+	if(!(this.state.id==='0' || this.state.id==='null')){
 	        const url =process.env.REACT_APP_API_URL +'users/?user='+this.state.id
                 await fetch(url,{
                         method:'GET',
                         headers: { 'Content-Type': 'application/json'}
                         }).then(res =>res.json()).then(result=>{
-			alert(JSON.stringify(result))
                 this.setState({profile:result[0]})
 			})
         }else if(this.state.com!=="0"){
@@ -39,7 +38,7 @@ export default class Home extends React.Component{
 		<div>
 		Home Page
 		{(this.state.com!=='0')?<Com com={this.state.com}/>:""}
-		{(this.state.id!=='0')?<Profile profile={this.state.profile} />:""}
+		{!(this.state.id==='0' || this.state.id==='null')?<Profile profile={this.state.profile} />:""}
 		<Feed id={this.state.id} com={this.state.com.id}/>
 		</div>
 	    </div>

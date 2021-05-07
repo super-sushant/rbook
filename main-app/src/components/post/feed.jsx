@@ -28,12 +28,13 @@ export default class Feed extends React.Component{
 	}
 	async loadPost(){
 		let url =""
-		if(this.props.id!=='0'){
+		if(this.props.id!=='0' && this.props.id!=='null'){
 			const id=this.props.id
 			url=process.env.REACT_APP_API_URL+"posts/?user="+id
 		}else if(typeof(this.props.com)!=='undefined'){
 			url=process.env.REACT_APP_API_URL+"posts/?community="+this.props.com
-		}
+		}else{	url=process.env.REACT_APP_API_URL+'posts/'}
+
 		await fetch(url,{
 			method:'GET',
 			headers:{'Content-Type':'application/json'}
