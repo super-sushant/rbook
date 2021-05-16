@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
-]
+    "django_messages_drf",]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

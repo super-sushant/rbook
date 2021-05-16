@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('sasta/', include('main.urls')),
     path('api-auth/',include('rest_framework.urls',namespace='restframework')),
+    path("messages/", include("django_messages_drf.urls", namespace="django_messages_drf")),
+
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

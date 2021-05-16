@@ -23,36 +23,36 @@ class UserViewSet(viewsets.ModelViewSet):
 	serializer_class = UserSerializer
 	filter_backends = [filters.SearchFilter]
 	search_fields =['username','first_name']
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class UserProfileViewSet(viewsets.ModelViewSet):
 	filterset_fields =['user']
 	queryset = UserProfile.objects.all().order_by('-pk')
 	serializer_class = UserProfileSerializer
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 class PostViewSet(viewsets.ModelViewSet):
 	queryset =Post.objects.all().order_by('-pk')
 	filterset_fields =['user']
 	serializer_class = PostSerializer
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
 	queryset=Comment.objects.all().order_by('-pk')
 	serializer_class =CommentSerializer
 	filterset_fields=['post']
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ImageViewSet(viewsets.ModelViewSet):
 	queryset = Image.objects.all().order_by('-pk')
 	serializer_class = ImageSerializer
 	filterset_fields=['post']
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class PostLikeViewSet(viewsets.ModelViewSet):
 	queryset=PostLikes.objects.all().order_by('-pk')
 	serializer_class = PostLikeSerializer
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticated]
 	def create(self,request):
 		serializer=PostLikeSerializer(data=request.data)
 		if serializer.is_valid():
@@ -63,7 +63,7 @@ class PostLikeViewSet(viewsets.ModelViewSet):
 class CommentLikeViewSet(viewsets.ModelViewSet):
 	queryset=CommentLikes.objects.all().order_by('-pk')
 	serializer_class = CommentLikeSerializer
-	#permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticated]
 	def create(self,request):
 		serializer=CommentLikeSerializer(data=request.data)
 		if serializer.is_valid():

@@ -28,6 +28,7 @@ export default class Feed extends React.Component{
 	}
 	async loadPost(){
 		let url =""
+		if(this.props.id!=='null' || typeof this.state.com!=='undefined'){
 		if(this.props.id!=='0' && this.props.id!=='null'){
 			const id=this.props.id
 			url=process.env.REACT_APP_API_URL+"posts/?user="+id
@@ -42,20 +43,20 @@ export default class Feed extends React.Component{
 			.then(res=>res.json())
 			.then(result=>{if(Array.isArray(result)){this.setState({posts:result})}})
 			.catch(err=>alert(JSON.stringify(err)))
-	}
+	}}
 	render(){
 	let Posts = this.state.posts.map(post=><Post post={post} handle={this.handleStateChange} user={this.props.user}/>)
-		return(
-			<div>
+		return(<div>
 				<userContext.Consumer>
 				{({user}) => {
 				if(Object.keys(user)===0){
-					return (
-((typeof this.state.com!=='undefined' && user.user!=='')|| this.state.id===user.user.split('/')[5])?
-<AddPost com={this.state.com} handle={this.handleStateChange} />:"")}}}
+					return (<>
+{((typeof this.state.com!=='undefined' && user.user!=='')|| this.state.id===user.user.split('/')[5])?
+<AddPost com={this.state.com} handle={this.handleStateChange} />:"hehe"}
+				</>)}}}
 				</userContext.Consumer>
-				{Posts}
-			</div>
+				{this.state.id==='null' && typeof this.state.com==='undefined'?"Babe you need to login":Posts}
+		</div>
 		)
 	}
 }

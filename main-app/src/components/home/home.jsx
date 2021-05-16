@@ -38,8 +38,11 @@ export default class Home extends React.Component{
 		<div>
 		Home Page
 		{(this.state.com!=='0')?<Com com={this.state.com}/>:""}
-		{!(this.state.id==='0' || this.state.id==='null')?<Profile profile={this.state.profile} />:""}
-		<Feed id={this.state.id} com={this.state.com.id}/>
+		{this.state.id!=='null'?
+			this.state.id!=='0'?
+			<Profile profile={this.state.profile} />:""
+			<Feed id={this.state.id} com={this.state.com.id}/>
+		:"Babe you need to login Comeon"}
 		</div>
 	    </div>
 	);

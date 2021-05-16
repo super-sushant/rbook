@@ -34,14 +34,15 @@ export default class Login extends Component {
 	const handleChange =(e)=>{
                 this.setState({[e.target.id]:e.target.value})
 	}
+
 	const redirectToReferrer = this.state.login;
 	if (redirectToReferrer) {
-	if(this.state.notr===true){
-		return <Redirect to={`/sign-up/${this.state.id}`}/>}else if (this.state.notr===false){
-		return <Redirect to={`/home/${this.state.id}/0`}/>}
+		if(this.state.notr===true){
+			return <Redirect to={`/sign-up/${this.state.id}`}/>
+	    	}else if (this.state.notr===false){
+			return <Redirect to={`/home/${this.state.id}/0`}/>}
 		const url=process.env.REACT_APP_API_URL+'users/?user='+this.state.id
 		fetch(url).then(res=>res.json()).then(res=>{
-		alert(JSON.stringify(res.length))
 		if(res.length===0){this.setState({notr:true})
 		}else{this.setState({notr:false})}})
         }
@@ -68,7 +69,7 @@ export default class Login extends Component {
 
                 <button type="submit" onClick={this.handleSubmit} className="btn btn-primary btn-block">Submit</button>
                 <p className="forgot-password text-right">
-                    Forgot <a href="">password?</a><br></br>
+                    Forgot <a href="/">password?</a><br></br>
                     New User ? <a href="/sign-up/">Sign Up</a>
                 </p>
             </form>

@@ -1,7 +1,7 @@
 import React from 'react'
 import {userContext} from '../../userContext'
-import {Link} from 'react-router-dom'
-export default class Browse extends React.Component{
+import {Link,withRouter} from 'react-router-dom'
+class Browse extends React.Component{
 	constructor(props){
 		super(props)
 		this.state={cats:[],coms:[],comcatid:0}
@@ -51,9 +51,18 @@ export function Com(props){
 		let value=process.env.REACT_APP_API_URL+'com/'+com.id+'/'
 		if(joined){const index =user.community.indexOf(value);if(index > -1){user.community.splice(index, 1);}}
 		else{user.community.push(value)}
-		let data={user:user.user,community:user.community,starred:user.starred}
-		fetch(user.url,{method:'PUT',headers:{'Content-Type':'application/json',...header},
-body:JSON.stringify(data)}).then(res=>res.json()).then(res=>res.url?changeJ(!joined):alert(JSON.stringify(res)))
+		let data={
+			user:user.user,
+			community:user.community,
+			starred:user.starred
+			}
+		fetch(user.url,{
+			method:'PUT',
+			headers:{'Content-Type':'application/json',...header},
+			body:JSON.stringify(data)
+		})
+		.then(res=>res.json())
+		.then(res=>res.url?changeJ(!joined):alert(JSON.stringify(res)))
 	}
 	return(
 		<div><Link to={`/home/0/${com.id}`}>
@@ -64,3 +73,4 @@ body:JSON.stringify(data)}).then(res=>res.json()).then(res=>res.url?changeJ(!joi
 		</div>
 		)
 }
+export default Browse

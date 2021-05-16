@@ -11,7 +11,6 @@ export default class UserThumb extends React.Component{
 		this.loadData()
 		}
 	async loadData(){
-		const token =localStorage.getItem('token')
 		await fetch(this.props.profile).then(res=>res.json()).then(result=>{
 	                this.setState({profile:result})
 		})
