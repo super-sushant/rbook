@@ -26,8 +26,11 @@ export default class Home extends React.Component{
                         method:'GET',
                         headers: { 'Content-Type': 'application/json'}
                         }).then(res =>res.json()).then(result=>{
-                this.setState({profile:result[0]})
-			})
+		fetch(result[0].user).then(res=>res.json()).then(res=>{
+		let data = result[0]
+		data.user=res
+                this.setState({profile:data})
+			})})
         }else if(this.state.com!=="0"){
                 const url =process.env.REACT_APP_API_URL +'com/'+this.state.com+'/'
                 await fetch(url)

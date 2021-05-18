@@ -35,7 +35,7 @@ class App extends React.Component {
 		const url=process.env.REACT_APP_API_URL+'users/?user='+this.state.id
                 fetch(url).then(res=>res.json()).then(res=>{
                 if(res.length){this.setState({user:res[0]});alert('Consider Yourself Logged In')
-                }else{alert(JSON.stringify(res))}})
+                }})
   }
 
   render() {

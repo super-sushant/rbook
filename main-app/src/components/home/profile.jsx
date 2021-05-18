@@ -4,7 +4,6 @@ export default function Profile(props){
 	let profile=props.profile
 	let {user,header} =React.useContext(userContext)
 	let [joined,changeJ]=React.useState(0)
-	
         if(user.starred && joined === 0){changeJ(user.starred.includes(profile.user))}
         const handleJoin=(e)=>{
                 e.preventDefault()
@@ -24,7 +23,7 @@ export default function Profile(props){
 		</div>
 		<div className="username">{profile.user.username}</div>
 		<div className="name">{profile.user.first_name+profile.user.last_name}</div>
-		<button onClick={handleJoin}>{joined?'Following':'Follow?'}</button>
+		{user?<button onClick={handleJoin}>{joined?'Following':'Follow?'}</button>:''}
 		</>
 		);
 }

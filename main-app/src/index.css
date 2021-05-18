@@ -77,10 +77,12 @@ font-family: "Sofia", sans-serif;
 .img-post{
 	hieght:80%;
 }
-.post-lower{
-	display:flex;
+.img-comment{
+	hieght:50%;
+	width:50%;
 }
-
+.post-lower{
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

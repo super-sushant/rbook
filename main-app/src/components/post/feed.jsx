@@ -36,7 +36,6 @@ export default class Feed extends React.Component{
 		}else if(this.props.com){
 			url=process.env.REACT_APP_API_URL+"posts/?community="+this.props.com
 		}else{	url=process.env.REACT_APP_API_URL+'posts/'}
-		alert(JSON.stringify(url))
 		await fetch(url,{
 			method:'GET',
 			headers:{'Content-Type':'application/json'}

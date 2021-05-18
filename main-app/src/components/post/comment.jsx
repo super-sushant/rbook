@@ -1,8 +1,10 @@
 import React from 'react'
+import {userContext} from '../../userContext'
 import UserThumb from './userthumb.jsx'
 export default function Comment(props,{userContext}){
 	const token =localStorage.getItem('token')
 	let comment=props.comment
+	const {user} =React.useState(userContext)
 	const like=(e)=>{
 		let url = process.env.REACT_APP_API_URL+'commentsl/'
 		let data={comment:props.comment.url,user:props.user}
@@ -23,13 +25,14 @@ export default function Comment(props,{userContext}){
 		.then(res=>res.json())
 	}				
 	return(
-		<div>
+		<div className="comment">
 		<UserThumb profile={props.comment.user}/>
 		<hr/>
-		{props.comment.text}
-		<img alt="" src={props.comment.image}/>
+		<div className="comment-text">{props.comment.text}
+                        </div>
+		<img className="img-comment" alt="" src={props.comment.image}/>
 			<div className="post-lower">
-                        <button className="like" onClick={like}>^</button>
+                        {user?<button className="like" onClick={like}>^</button>:""}
                         {comment.likes}
                         </div>
 		</div>
