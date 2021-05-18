@@ -6,12 +6,13 @@ export default class Feed extends React.Component{
 	constructor(props){
 	super(props)
 	this.state={posts:[],id:this.props.id}
+	
 	this.loadPost=this.loadPost.bind(this)
 	this.handleStateChange=this.handleStateChange.bind(this)
 	}
 
 	componentDidMount(){
-		this.loadPost()
+			this.loadPost()
 	}
 	componentWillUpdate(nextProps){
 		if(nextProps.id!==this.state.id || nextProps.com!==this.state.com){
@@ -28,14 +29,14 @@ export default class Feed extends React.Component{
 	}
 	async loadPost(){
 		let url =""
-		if(this.props.id!=='null' || typeof this.state.com!=='undefined'){
-		if(this.props.id!=='0' && this.props.id!=='null'){
+		if(this.props.id!=='null' || this.state.com){
+		if(this.props.id!=='0'){
 			const id=this.props.id
 			url=process.env.REACT_APP_API_URL+"posts/?user="+id
-		}else if(typeof(this.props.com)!=='undefined'){
+		}else if(this.props.com){
 			url=process.env.REACT_APP_API_URL+"posts/?community="+this.props.com
 		}else{	url=process.env.REACT_APP_API_URL+'posts/'}
-
+		alert(JSON.stringify(url))
 		await fetch(url,{
 			method:'GET',
 			headers:{'Content-Type':'application/json'}
@@ -49,7 +50,7 @@ export default class Feed extends React.Component{
 		return(<div>
 				<userContext.Consumer>
 				{({user}) => {
-				if(Object.keys(user)===0){
+				if(user){
 					return (<>
 {((typeof this.state.com!=='undefined' && user.user!=='')|| this.state.id===user.user.split('/')[5])?
 <AddPost com={this.state.com} handle={this.handleStateChange} />:"hehe"}

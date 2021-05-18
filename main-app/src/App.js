@@ -1,7 +1,7 @@
 import './App.css';
 /*import '../node_modules/bootstrap/dist/css/bootstrap.min.css';*/
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
 import Login from "./components/login/login";
 import SignUp from "./components/login/register";
 import Home from "./components/home/home";
@@ -35,7 +35,7 @@ class App extends React.Component {
 		const url=process.env.REACT_APP_API_URL+'users/?user='+this.state.id
                 fetch(url).then(res=>res.json()).then(res=>{
                 if(res.length){this.setState({user:res[0]});alert('Consider Yourself Logged In')
-                }})
+                }else{alert(JSON.stringify(res))}})
   }
 
   render() {

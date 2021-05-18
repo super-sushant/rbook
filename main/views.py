@@ -23,16 +23,16 @@ class UserViewSet(viewsets.ModelViewSet):
 	serializer_class = UserSerializer
 	filter_backends = [filters.SearchFilter]
 	search_fields =['username','first_name']
-	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+	#permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class UserProfileViewSet(viewsets.ModelViewSet):
 	filterset_fields =['user']
 	queryset = UserProfile.objects.all().order_by('-pk')
 	serializer_class = UserProfileSerializer
-	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+	#permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 class PostViewSet(viewsets.ModelViewSet):
 	queryset =Post.objects.all().order_by('-pk')
-	filterset_fields =['user']
+	filterset_fields =['user','community']
 	serializer_class = PostSerializer
 	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import {userContext} from '../../userContext'
-import {Link,withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 class Browse extends React.Component{
 	constructor(props){
 		super(props)
@@ -43,8 +43,8 @@ function Cat(props){
 export function Com(props){
 	const com=props.com
 	let {user,header} =React.useContext(userContext)
-	let [joined,changeJ]=React.useState(0)	
-	if(user.community && joined){
+	let [joined,changeJ]=React.useState(null)
+	if(user.community && joined==null){
 	changeJ(user.community.includes(process.env.REACT_APP_API_URL+'com/'+com.id+'/'))}
 	const handleJoin=(e)=>{
 		e.preventDefault()
@@ -64,12 +64,13 @@ export function Com(props){
 		.then(res=>res.json())
 		.then(res=>res.url?changeJ(!joined):alert(JSON.stringify(res)))
 	}
+
 	return(
 		<div><Link to={`/home/0/${com.id}`}>
 		{com.name}
 		<img alt='' src={com.pic}/>
 		</Link>
-		<button onClick={handleJoin}>{joined?'Joined':'Join'}</button>
+		{user?<button onClick={handleJoin}>{joined?'Joined':'Join'}</button>:""}
 		</div>
 		)
 }

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+
 import {Redirect} from 'react-router-dom'
 export default class SignUp extends Component {
 	constructor(props){
 		super(props)
 		this.myref=React.createRef(null)
-		this.state={ email:"",password1:"",password2:"",username:""}
-		this.handleSubmit = this.handleSubmit.bind(this)
+		this.myref1=React.createRef(null)
+		this.state={}
 	}
 	async handleSubmit(e){
 		e.preventDefault()
@@ -38,11 +39,22 @@ export default class SignUp extends Component {
 	        data.append("user",`http://localhost:8000/sasta/us/${this.props.match.params.id}/`)
 		data.append("community",["http://localhost:8000/sasta/com/1/"])
 	        data.append('starred', ["http://localhost:8000/sasta/us/1/"])
-		fetch(url, {
+		const url1=`http://localhost:8000/sasta/us/${this.props.match.params.id}/`
+		fetch(url1).then(res=>res.json()).then(res1=>{
+		  fetch(url1,{
+			method:'PUT',
+			headers:{'Content-Type':'application/json'},
+			body:JSON.stringify({...res1,...this.state}),
+		  })
+			.then(res=>res.json())
+			.then(res=>{if(res.url){
+		    fetch(url, {
 			method: 'POST',
 			body: data
-		}).then(response=>response.json()).then(result=>{
+			}).then(response=>response.json()).then(result=>{
 			this.setState({gotohome:true})
+		      })
+		   }else{alert(JSON.strjngify(res))}})
 		})
 	}
         if (redirectToReferrer) {
@@ -85,11 +97,16 @@ export default class SignUp extends Component {
 		</form>
 	);}
 	else{return(
-            <form ref={this.myref}>
+		<>
                 <h3>Sign Up</h3>
-                    <input name='dob'  id = "dob" type="date" required/>
-                    <input name='dp' id = "dp" type="file" accept="image/png, image/jpeg" />
+            <form ref={this.myref1}>
+                    <input required id='first_name' onChange={handleChange} type="text" placeholder="First Name" />
+                    <input required id='last_name'  onChange={handleChange} type="text" placeholder="Last Name"  />
+		</form>
+            <form ref={this.myref}>
+                    <input required name='dob'  id = "dob" type="date"/>
+                    <input required name='dp' id = "dp" type="file" accept="image/png, image/jpeg"/>
                 <button type="submit" className="btn btn-primary btn-block" onClick = {handleSubmit}>Sign Up</button>
-		</form>);}
+		</form></>);}
     }
 }

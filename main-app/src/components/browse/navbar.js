@@ -1,24 +1,16 @@
 import React from 'react'
-import {Link,Redirect,useHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {userContext} from '../../userContext'
 export default function NavBar(props){
 	const [searchtext,setSeachtext]=React.useState("")
 	const [users,setusers]=React.useState([''])
 	const {user,logout}=React.useContext(userContext)
-	const history = useHistory()
 	const loadData=()=>{
 		if(searchtext!==''){
 		const url =process.env.REACT_APP_API_URL+'us/?search='+searchtext
 		fetch(url).then(res=>res.json()).then(result=>setusers(result))}
 	}
 	const userlist=searchtext===''?'':users.map(user=><UserList user={user}/>)
-	const handleClick=(e)=>{
-		if(Object.keys(user).length){
-		alert(JSON.stringify(user))
-			logout()}
-		else{
-		alert("yeehaw")}
-	}
 	React.useEffect( () => {loadData()})
 	return(
 		<div>

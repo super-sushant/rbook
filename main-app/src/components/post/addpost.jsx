@@ -16,7 +16,6 @@ export default function AddPost(props){
 		}).then(res=>res.json())
 		.then(result=>{
 			if(result.url){
-				alert(JSON.stringify(result))
 				uploadFiles(result.url);
 				props.handle(result,1)}
 		}).catch(err=>alert(JSON.stringify(err)))
@@ -33,8 +32,6 @@ export default function AddPost(props){
 			headers:{...header},
 			body:data})
 		.then(res=>res.json())
-		.then(result=>{
-			alert(JSON.stringify(result))})
 		.catch(err=>alert(JSON.stringify(err)))
 		})			
 	}				
