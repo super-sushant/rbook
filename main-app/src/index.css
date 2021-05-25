@@ -12,6 +12,10 @@ body {
   color:#C5C6C7;
 }
 
+.thumb{
+height:50px;
+width:50px;
+}
 div.topnav {
 position:sticky;
   overflow: hidden;

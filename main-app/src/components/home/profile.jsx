@@ -1,5 +1,6 @@
 import React from 'react'
 import {userContext} from '../../userContext'
+import {Link} from 'react-router-dom'
 export default function Profile(props){
 	let profile=props.profile
 	let {user,header} =React.useContext(userContext)
@@ -23,7 +24,10 @@ export default function Profile(props){
 		</div>
 		<div className="username">{profile.user.username}</div>
 		<div className="name">{profile.user.first_name+profile.user.last_name}</div>
-		{user?<button onClick={handleJoin}>{joined?'Following':'Follow?'}</button>:''}
+		{user?
+			<div><button onClick={handleJoin}>{joined?'Following':'Follow?'}</button>
+			<Link to={{pathname:'/msgs/0',msgto:profile.user.pk}}> Message this fella? </Link></div>
+		:''}
 		</>
 		);
 }

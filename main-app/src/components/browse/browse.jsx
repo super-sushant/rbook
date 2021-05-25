@@ -33,7 +33,7 @@ function Cat(props){
 	let coms=props.coms.map(com=><Com com={com}/>)
 	return(
 		<div>{cat.name}
-		<img alt="" src={cat.pic}/>
+		<img classNames="thumb" alt="" src={cat.pic}/>
 		<button onClick={loadCom}>{'>'}</button>
 		HEHEH
 		{coms}
@@ -68,7 +68,7 @@ export function Com(props){
 	return(
 		<div><Link to={`/home/0/${com.id}`}>
 		{com.name}
-		<img alt='' src={com.pic}/>
+		<img className="thumb" alt='' src={com.pic}/>
 		</Link>
 		{user?<button onClick={handleJoin}>{joined?'Joined':'Join'}</button>:""}
 		</div>

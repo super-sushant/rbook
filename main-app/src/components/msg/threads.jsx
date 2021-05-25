@@ -13,36 +13,34 @@ export default function Threads(props){
 		if(res.results.length){setThreads(res.results);setloaded(true)}
 			})
 		}
-	const delThread=(uuid)=>{
+	const delThread=(e)=>{
+		const uuid=e.target.id
 		const url =process.env.REACT_APP_MSG_URL+'thread/'+uuid+'/delete'
-		fetch(url,{method:'DELETE',headers:{...header},})
-		.then(res=>res.json())
-		.then(res=>{
-			})
+		fetch(url,{method:'DELETE',headers:{...header}})
+		.then(alert("SuccessFully Deleted"))
 		}
-	if(!loaded && user){loadData()}
+	if(user){if(!loaded){loadData()}}
 	const convos=threads?threads.map(thread=><Convo convo={thread} delThread={delThread} />):"Babe you need to talk More this isnt working"
-	if(user){	return(<div>{convos}</div>)}else{return(<div>Babe Try logging in first"</div>)}
-
+	if(user){return(<div>{convos}</div>)}else{return(<div>Babe Try logging in first"</div>)}
 }
 function Convo(props){
 	const c=props.convo
 	return(
-		<div style={{'display':'flex',}}>
+		<div style={{'display':'flex','flex-direction':'column'}}>
 		<Link to={`/msgs/${c.uuid}`}>
 		{c.subject}
 		{c.sender.display_name}
 		{c.last_message}
-		{c.total_unread?<span >.</span>:""}
+		{c.total_unread?<h1>.</h1>:""}
 		<hr/>
 		</Link>
-<Dropdown style={{'right':'0',}}>
-  <Dropdown.Toggle variant="success" id="dropdown-basic">
+<Dropdown>
+  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{"right":"0"}}>
     ^
   </Dropdown.Toggle>
 
   <Dropdown.Menu>
-    <Dropdown.Item onClick={props.delThread(c.uuid)} href="#/action-1">Action</Dropdown.Item>
+    <Dropdown.Item id ={c.uuid} onClick={props.delThread}>Action</Dropdown.Item>
   </Dropdown.Menu>
 </Dropdown>		</div>
 		)
