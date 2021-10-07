@@ -1,0 +1,6 @@
+django_allauth==0.45.0
+Django==3.2.8
+django_filter==21.1
+djangorestframework_jwt==1.11.0
+djangorestframework==3.12.4
+rest_auth
