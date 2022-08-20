@@ -1,6 +1,8 @@
-django_allauth==0.45.0
-Django==3.2.8
-django_filter==21.1
-djangorestframework_jwt==1.11.0
+django-allauth==0.51.0
+django==3.2.8
+djangorestframework-jwt==1.11.0
 djangorestframework==3.12.4
-rest_auth
+django-cors-headers==3.13.0
+django-filter==22.1
+django-messages-drf==1.0.6
+django-rest-auth==0.9.5

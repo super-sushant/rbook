@@ -3,14 +3,16 @@ import React, { Component } from "react";
 import {Redirect} from 'react-router-dom'
 export default class SignUp extends Component {
 	constructor(props){
-		super(props)
+		super(props);
 		this.myref=React.createRef(null)
-		this.myref1=React.createRef(null)
+		this.myref1 = React.createRef(null)
+		this.handleSubmit = this.handleSubmit.bind(this);
 		this.state={}
 	}
 	async handleSubmit(e){
 		e.preventDefault()
 		const url = 'http://localhost:8000/sasta/rest-auth/registration/'
+		console.log(this.state);
 		await fetch(url, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json'},
